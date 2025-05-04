@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SHL Assessment Recommender</title>
+    <style>
+        body { font-family: Arial; margin: 40px; background-color: #f5f5f5; }
+        h1 { color: #333; }
+        textarea, button { padding: 10px; font-size: 16px; margin-top: 10px; width: 100%; max-width: 600px; }
+        #response { margin-top: 20px; font-weight: bold; }
+        table, th, td { border: 1px solid black; border-collapse: collapse; padding: 5px; }
+    </style>
+</head>
+<body>
+    <h1>SHL Assessment Recommender</h1>
+    <textarea id="jobDescInput" rows="5" placeholder="Enter job description here..."></textarea>
+    <br>
+    <button onclick="submitForm()">Get Recommendations</button>
+    <div id="response"></div>
+
+    <script>
+        async function submitForm() {
+            const jobDesc = document.getElementById('jobDescInput').value;
+            const response = await fetch('/api/recommend', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ job_description: jobDesc })
+            });
+            const data = await response.json();
+            document.getElementById('response').innerHTML = data.result;
+        }
+    </script>
+</body>
+</html>
